@@ -9,14 +9,15 @@ namespace ProjectMobileDevice
 {
     class GSM
     {
-        public string model = null;// mẫu
+        public string model;// mẫu
         public string manufacturer;// Nhà sản xuất
         Nullable<double> prince = null;
 
         string owner = null;// chủ sở hữu
                             // string battery; đặc tính của pin
-        Battery battery;
-        Display display;
+        Battery battery = null;
+        Display display = null;
+        List<Call> callHistory = new List<Call>();
 
 
         public string Model
@@ -29,7 +30,8 @@ namespace ProjectMobileDevice
             {
                 if (value == null)
                 {
-                    throw new Exception("field is not null");
+                   // Console.WriteLine("field is not null");
+                    throw new Exception();
                 }
                 this.model = value;
             }
@@ -59,7 +61,7 @@ namespace ProjectMobileDevice
             }
             set
             {
-           
+
                 this.prince = value;
             }
         }
@@ -100,6 +102,19 @@ namespace ProjectMobileDevice
             }
         }
 
+        internal static GSM IPhone4S1
+        {
+            get
+            {
+                return IPhone4S;
+            }
+
+            set
+            {
+                IPhone4S = value;
+            }
+        }
+
         public GSM(string Model, string Manufacturer, double Prince, string Owner,
             Battery battery, Display display)
         {
@@ -112,30 +127,93 @@ namespace ProjectMobileDevice
             this.display = display;
         }
 
+       
+
+        // add call from the call history
+
+        public void AddCall(Call call)
+        {
+            this.callHistory.Add(call);
+        }
+        // delete call from the call history
+
+        public void DeleteCall(Call call)
+        {
+            this.callHistory.Remove(call);
+        }
+        // clear the call history
+        public void ClearCall()
+        {
+            this.callHistory.Clear();
+        }
+        // remove call longtime
+        public void DeleteLongCall()
+        {
+            Call call = null;
+            double max = 0;
+            for (int i = 0; i < callHistory.Count(); i++)
+            {
+                if (callHistory[i].LongTime > max)
+                {
+                    call = callHistory[i];
+                    max = callHistory[i].LongTime;
+                }
+            }
+            this.callHistory.Remove(call);
+        }
+        // caculate time in the call history
+        public double caculatePrinceCall(double princeMinute)
+        {
+            double sumTime = 0;
+            for (int i = 0; i < callHistory.Count(); i++)
+            {
+                sumTime += callHistory[i].LongTime;
+            }
+            return (double)princeMinute * Math.Ceiling(sumTime / 60);
+
+        }
+
+        // print call
+        public void printCall()
+        {
+            for (int i = 0; i < callHistory.Count(); i++)
+            {
+                Console.WriteLine("----------Call------------");
+                Console.WriteLine("Date Time: " + callHistory[i].Date);
+                Console.WriteLine("Dialed phone: " + callHistory[i].DialedPhone);
+                Console.WriteLine("Duration {0} seconds", callHistory[i].LongTime);
+            }
+        }
+
         public override string ToString()
         {
-            ArrayList array = new ArrayList();
-            if (prince.HasValue)
+            Console.WriteLine("----------------GSM:-------------");
+            Console.WriteLine("Model: " + this.Model);
+            Console.WriteLine("Manufacturer: " + this.Manufacturer);
+            if (this.Prince.HasValue)
             {
-                array.Add(prince);
+                Console.WriteLine("Prince: " + this.Prince);
             }
-
-            if (owner.Length!=0)
+            if (this.Owner.Count() != 0)
             {
-                array.Add(owner);
+                Console.WriteLine("Owner: " + this.Owner);
             }
-           // array.Add(battery.)
-            
+            Console.WriteLine("" + this.Battery);
+            Console.WriteLine("" + this.Display);
+            return string.Format("");
+        }
 
-            return string.Format("Product detail: Model:{0}\n Manufacturer:{1}\n Prince{2}\n Owner{3}\n");
+        //Battery batter = new Battery(Battery.BatteryType.LiIon,12,12);
+
+        private static GSM IPhone4S;
+        static GSM()
+        {
+            IPhone4S1 = new GSM("IPhone4S", "Apple", 130000, "Nguyen Ke Than",
+              new Battery(Battery.BatteryType.LiIon, 12, 12), new Display("890x140", 3));
         }
         
-        Battery batter = new Battery(Battery.BatteryType.LiIon,12,12);
-
-
-        private GSM IPhone4S = new GSM("IPhone4S", "Apple", 13000000, null,
-            new Battery(Battery.BatteryType.LiIon, 12, 12), new Display("890x140", 3));
-
+           
+           
 
     }
 }

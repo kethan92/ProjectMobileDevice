@@ -12,8 +12,8 @@ namespace ProjectMobileDevice
         // create enum GSM
         public enum BatteryType { LiIon, NiMH, NiCd }
         BatteryType model;
-        private Nullable<int> hoursIdle;
-        private Nullable<int> hoursTalk;
+        private Nullable<int> hoursIdle=null;
+        private Nullable<int> hoursTalk=null;
 
         public Nullable<int> HoursIdle
         {
@@ -42,7 +42,7 @@ namespace ProjectMobileDevice
         }
           
         // public BatteryType Model { get; set; }
-        public Battery(BatteryType model, Nullable<int> hoursIdle, Nullable<int> hoursTalk)
+        public Battery(BatteryType model, Nullable<int> hoursIdle=null, Nullable<int> hoursTalk=null)
         {
             this.model = model;
             this.hoursIdle = hoursIdle;
@@ -51,6 +51,17 @@ namespace ProjectMobileDevice
         // Tostring
         public override string ToString()
         {
+            Console.WriteLine("BATTERY");
+            if(this.HoursIdle.HasValue)
+            {
+                Console.WriteLine("Hours Idle: "+this.HoursIdle);
+            }
+            if (this.HoursTalk.HasValue)
+            {
+                Console.WriteLine("Hours Talk: " + this.HoursTalk);
+            }
+            return string.Format("Model: " + this.model);
+            /*
             List<string> array = new List<string>();
             array.Add("Model:" + this.model);
             if (this.HoursIdle.HasValue)
@@ -63,6 +74,7 @@ namespace ProjectMobileDevice
             }
            // return String.Format(array);
             return String.Join(", ", array);
+            */
 
         }
 

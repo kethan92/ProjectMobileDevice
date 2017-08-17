@@ -10,7 +10,7 @@ namespace ProjectMobileDevice
     {
         private string size = null;
 
-        private Nullable<int> numberOfColors;
+        private Nullable<int> numberOfColors=null;
 
         public string Size
         {
@@ -36,7 +36,7 @@ namespace ProjectMobileDevice
             }
         }
 
-        public Display(string size, Nullable<int> NumberOfColors)
+        public Display(string size, Nullable<int> NumberOfColors=null)
         {
             this.size = size;
             this.NumberOfColors = NumberOfColors;
@@ -44,6 +44,7 @@ namespace ProjectMobileDevice
         // Tostring
         public override string ToString()
         {
+            /*
             List<string> array = new List<string>();
             if (this.Size!=null)
             {
@@ -55,7 +56,17 @@ namespace ProjectMobileDevice
             }
             // return String.Format(array);
             return String.Join(", ", array);
-
+            */
+            Console.WriteLine("DISPLAY");
+            if(this.Size.Count()!=0)
+            {
+                Console.WriteLine("Size: "+this.Size);
+            }
+            if(this.NumberOfColors.HasValue)
+            {
+                Console.WriteLine("Number of colors: " + this.NumberOfColors);
+            }
+            return string.Format("");
         }
     }
 }
